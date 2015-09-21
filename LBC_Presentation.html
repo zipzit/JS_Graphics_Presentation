@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>LV JS Meetup - Graphics!</title>
+	<!-- this presentation is based on https://github.com/hakimel/reveal.js/ -->
+	<!-- this file is based on index.html from that package...-->
+
+	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+	<meta name="author" content="Hakim El Hattab">
+
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+	<!-- Code syntax highlighting -->
+	<link rel="stylesheet" href="css/zenburn.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+
+	<!--[if lt IE 9]>
+		<script src="js/html5shiv.js"></script>
+		<![endif]-->
+</head>
+
+<body>
+
+	<div class="reveal">
+
+		<!-- Any section element inside of this container is displayed as a slide -->
+		<div class="slides">
+			<section>
+				<h1>JavaScript & Graphical Output </h1>
+				<h3>(Canvas / PDF / + More)</h3>
+				<p>
+					<small>Presented by <a href="http://dogfeatherdesign.com">LB Corney</a> / <a href="http://twitter.com/lbcorney">@lb_corney</a></small>
+				</p>
+			</section>
+
+			<section>
+				<h2>Graphics, Why?</h2>
+				<ul>
+					<li>Graphic presentation is intuitive to the user. </li>
+					<li>In the form of graphs and charts, they provide a means for analyzing a wide variety of numerical facts via points, lines, areas or other shapes and symbols. </li>
+					<li>In the form of pictures, they can tell a story, engage the user on an emotional level. </li>
+					<li>Graphic presentation can simplify complicated concepts, and contribute to a more balanced understanding of a problem.</li>
+					<li>Dynamic effects.. Animation, modeling, games.</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Graphic Tools in Browser with HTML5</h2>
+				<ul>
+					<li>Document Object Model (DOM) </li>
+					<li>Scalable Vector Graphics (SVG) </li>
+					<li>Canvas ( &lt;canvas/&gt; )</li>
+					<li>&lt;video/&gt; (and &lt;audio/&gt; ) </li>
+					<li>WebGL and OpenGL low-level 3D graphics APIs </li>
+					<!-- &lt; (<) -->
+					<!-- &gt; (>) -->
+					<!-- &amp; (&) -->
+				</ul>
+			</section>
+
+			<section>
+				<section>
+					<h2>Document Object Model</h2>
+					<p> You can do a lot of 2D graphics 'tricks' here, using Cascasding Style Sheets (CSS). You can do animations, and paint style creations. You can move &lt;div&gt; s around the DOM to place things where you want them to go. </p>
+				</section>
+				<section>
+					<h2>Document Object Model</h2>
+					<img src="lbc_support_files\HTMLdom.jpg" />
+					<pre>
+						<code data-trim contenteditable>
+<div id="rectangleBox">
+	<div id="line2"></div>
+	<div id="circle">
+		<div id="textBox">HTML
+			<br/>&nbsp;DIV</div>
+	</div>
+	<div id="line"></div>
+</div>
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2> DOM Continued...</h2>
+					<pre>
+						<code data-trim contenteditable>
+#rectangleBox { width: 300px; height: 200px; background-color: #0000ff; color: white; position: relative; }
+#circle { width: 160px; height: 160px; background: green; -moz-border-radius: 80px; -webkit-border-radius: 80px; border-radius: 80px; position:
+absolute; left: 70px; top: 20px; }
+#textBox { position: absolute; left: 50px; top: 50px; font-size: 30px; }
+#line { border-bottom: 5px solid red; -webkit-transform: translateY(130px) translateX(5px) rotate(-26deg); width: 275px; }
+#line2 { border-bottom:	5px solid red; -webkit-transform: translateY(100px) translateX(5px) rotate(-26deg); width: 275px; }
+					</code></pre>
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<h2>Scalable Vector Graphics (SVG)</h2>
+					<p> SVG is concerned with <b>the shapes of things.</b></p>
+					<p> Scalable Vector Graphics (SVG) is an XML-based vector image format for two-dimensional graphics with support for interactivity and animation. </p>
+				</section>
+				<section>
+					<img src="lbc_support_files\SVGonly.jpg" />
+					<pre>
+						<code data-trim contenteditable>
+<svg version="1.1" baseProfile="full" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+	<rect width="100%" height="100%" fill=" #0000ff" />
+	<line x1="25" y1="155" x2="275" y2="30" style="stroke:rgb(255,0,0);stroke-width:5" />
+	<circle cx="150" cy="100" r="80" fill="green" />
+	<text x="150" y="125" font-size="60" text-anchor="middle" fill="white">SVG</text>
+	<line x1="25" y1="185" x2="275" y2="60" stroke="red" stroke-width="5" fill="none" />
+</svg>
+						</code>
+					</pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Canvas</h2>
+					<p> Canvas elements are concerned with <b>pixels</b>. </p>
+					<p> The <a href="http://www.w3.org/TR/html5/scripting-1.html#the-canvas-element">canvas</a> element is part of HTML5 and allows for dynamic, scriptable rendering of 2D shapes and bitmap images. It is a low level, procedural model that updates a bitmap.</p>
+				</section>
+				<section>
+					<img src="lbc_support_files\CANVASonly.jpg" />
+					<pre>
+						<code data-trim contenteditable>
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+ctx.fillStyle = " #0000ff";  // was red
+ctx.fillRect(0, 0, 300, 200);
+ctx.fillStyle = "#00FF00";
+var centerX = canvas.width / 2;
+var centerY = canvas.height / 2;
+var radius = 80;
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2> Canvas Continued...</h2>
+					<pre>
+						<code data-trim contenteditable>
+ctx.lineWidth = 5;
+ctx.strokeStyle = "red";
+ctx.beginPath();
+ctx.moveTo(25, 155);
+ctx.lineTo(275, 30);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+ctx.fillStyle = "green"; // "#00FF00";
+ctx.fill();
+						</code>
+					</pre>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Compare 2D graphic concepts (DOM / SVG / Canvas)</h2>
+					<p>
+						You can build graphs, animations, games, and image composition with all three techniques (kinda, sorta).
+					</p>
+					<p><a href="lbc_support_files\SVGvsCANVASvsDIV.html"> Comparison of all three techniques </a> </p>
+					<p> DOM and SVG output is very similiar in functioning... (SVG for serious work) For next portion of discussion, I'm going to be comparing SVG to Canvas.</p>
+				</section>
+				<section>
+					<h2>Compare 2D - Factor: JavaScript</h2>
+					<p>SVG elements can be displayed on a static site, without JavaScript. </p>
+					<p>For Canvas, all elements must be modeled via JavaScript. If JavaScript is turned off in the users browser, then the canvas element fails.</p>
+				</section>
+				<section>
+					<h2>Compare 2D - Factor: Static Display / Ease of Use</h2>
+					<p>For simple elements, like static displays, SVG (with its xml style) is pretty easy to use. In use, its similiar to CSS.</p>
+					<p>Canvas displays must be programmed via JavaScript, and it requires more coding.</p>
+				</section>
+				<section>
+					<h2>Compare 2D - Factor: Text</h2>
+					<p>For graphical output with lots of shape controls (like text) SVG will outperform canvas every time. Items scale very well. Although canvas does support custom .ttf fonts, they may not scale or animate well on all devices.</p>
+				</section>
+				<section>
+					<h2>Compare 2D - Factor: Dynamic Animation</h2>
+					<p>You can move, scale, change elements dynamically in SVG. You can also control Z-index, dynamically.</p>
+					<p>In Canvas, you can there's no way to alter existing drawings. If you want to update the Canvas image, you have to erase it, and then redraw it. Have a nice day.</p>
+				</section>
+				<section>
+					<h2>Compare 2D - Factor: Speed</h2>
+					<p>On larger displays / higher resolution displays, canvas tends to slow as you have a lot more pixels to populate on refresh.</p>
+					<p>With SVG and CSS/DOM entries, the more objects you have in the DOM, the more performance degrades. </p>
+				</section>
+
+				<section>
+					<h2>Compare 2D - Factor: Event Handlers</h2>
+					<p>SVG images are defined in XML. As a result, every SVG element is appended to the DOM and can be manipulated using a combination of JavaScript and CSS. Moreover, you can attach an event handlers directly to a SVG element or update its properties based
+						on another document event. </p>
+					<p>Canvas, on the other hand, is a simple graphics API. It draws pixels very well and nothing more. There are ways to 'fake' event handlers via mouse positions, but that takes more work.</p>
+				</section>
+				<section>
+					<h2>Compare 2D - Factor: Libraries / Other Support API's</h2>
+					<p>SVG: Ton of stuff here, including graphing tools like D3.js (which uses SVG and CSS for its output). There are also many tools (e.g. Raphaël ) which bring vector art to SVG.</p>
+					<p>Canvas: Tools like Fabric.js (provides interactive object model on top of canvas element.) KineticJS (enabling canvas interactivity for desktop and mobile applications.)
+						jsPDF (creating graphic output in scale on physical paper). </p>
+				</section>
+				<section>
+					<h2>Compare 2D - Factor: Decision Time!</h2>
+					<ul>
+						<li>What am I trying to achieve?</li>
+						<li>Available tutorials? </li>
+						<li>Key libraries and support tools?</li>
+					</ul>
+				</section>
+			</section>
+
+			<section data-background-video="http://dogfeatherdesign.com/Extras/A.SCHLICHTER5-SD.mp4" data-background-color="#000000">
+				<h2 style="color: #111111; margin-top: -30%">Why am I talking on this topic?</h2>
+			</section>
+
+			<section>
+				<h2>Mechanism Design</h2>
+				<p> Remember our "Why Graphics?" slide?  Here's a graphic presentation that is intuitive to the user. </p>
+				<a href="http://dogfeatherdesign.com/engineering-projects/mechanisms-mechanical-walker/">Human Powered Mechanical Walker Project</a>
+				<p>	Creating this site is what got me interested in all things canvas .</p>
+			</section>
+
+			<section>
+				<h2>Canvas Code Examples</h2>
+					<a href="./lbc_support_files/dot_drag.html">Drop a dot / drag it...</a>
+				<p>	This is a tester for mouse events within canvas.</p>
+			</section>
+
+			<section>
+				<h2>Canvas Code Example</h2>
+					<a href="http://dogfeatherdesign.com/software_projects/cad/2D_Curve_Overview.html">Theory of CAD, Curved Lines</a>
+					<p>Graphic presentation can simplify complicated concepts, and contribute to a more balanced understanding of a problem.
+				</p>
+			</section>
+
+			<!-- <section>
+				<h2>jsPDF Tool</h2>
+				<p>
+					How to convert from graphics to pdf (and onto the printer...)   (Blizzard Canvas 2 PDF example)
+				</p>
+			</section> -->
+
+			<section>
+				<h2>Canvas Code Example, Tube Notcher</h2>
+				<a href="http://dogfeatherdesign.com/ttn_js">TubeNotcher Pattern Creation Tool</a>
+				<p>
+					This web page creates custom paper templates to aid folks
+					in manufacturing awesome things without a lot of investment costs.
+					(Makers Faire or generic fabrication folks? Custom Motorcycle / Bicycle Frames? Vehicle customizers?)
+					Tools I'm using: canvas, jsPDF, HTML2canvas, and Descriptive Geometry.
+				</p>
+			</section>
+
+			<section>
+				<section>
+					<h2>Lessons Learned, Tidbits of JS</h2>
+					<ul>
+						<li>User Interface for complicated single page? Best way to manage things? (This UI stuff is hard!) <br> Ans: jQuery Tabs for navigation.</li>
+						<li>Best way to display four graphic elements on same page?  iframes vs multiple canvas? <br> Ans: For this one, iframes worked great!</li>
+					</ul>
+				</section>
+				<section>
+					<h2>More Lessons Learned...</h2>
+					<ul>
+						<li>Array (& object) type variables are passed to the function by reference.</li>
+						<li>Primitive type variables (like a string or a number) are passed to the function by value.</li>
+						<li>Too many global variables in not a good thing.</li>
+					</ul>
+				</section>
+				<section>
+					<h2>More Lessons Learned...</h2>
+					How to call a function from an array? Ans:
+						<pre>
+							<code data-trim contenteditable>
+var btn = [			// array of button objects.
+{x: 70, y: 300, display: "Display", action: functionDisplay },
+{x: 310, y: 300, display: "Reset", action: functionReset }
+];
+
+// After a canvas mouse click occurs, check all buttons
+for (var i = 0; i < btn.length; i++) {
+  if (... test x, y locations... was mouse over this button?... ) {
+    console.log("Button #" + (i + 1) + " has been clicked!!");
+    btn[i].action(); // execute button function
+  }
+}
+
+function functionDisplay() {...}
+function functionReset() {...}
+						</code>
+					</pre>
+				</section>
+				<section>
+					<h2>More Lessons Learned..</h2>
+					<ul>
+						<li>How to send a parameter to an iframe? Ans:
+<pre>
+	<code data-trim contenteditable>
+<iframe src="./bezier_curve.html?lineType=BSpline"></iframe>
+
+// and later within the JS code...
+var result = window.location.search
+	</code>
+</pre>
+						</li>
+						<li>How to format numbers in JavaScript? Ans:
+<pre>
+	<code data-trim contenteditable>
+val.toFixed(2);
+	</code>
+</pre>
+						</li>
+						<!-- http://www.bennadel.com/blog/1013-javascript-number-tofixed-method.htm   -->
+						<li>On the Tubenotcher project there is a whole lot of code. How can I organize things better? Ans:
+							<a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/">JavaScript design patterns.</a>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Tidbits...</h2>
+					<div style="float: left; width: 65%;">
+						<ul>
+							<li>Sometimes its okay to use an older API.</li>
+							<li> <a href="https://en.wikipedia.org/wiki/Descriptive_geometry">Descriptive Geometry</a> =  the representation of three-dimensional objects in two dimensions,
+							important for engineering, architecture, design and art.</li>
+							<li><a href="http://www.uh.edu/engines/epi138.htm" >Reference: </a>Albrecht Dürer,
+							<i>Underweysung der Messung Mit dem Zirckel...</i>, Nuremberg, 1525 A.D.</li>
+						</ul>
+					</div>
+					<image src="lbc_support_files/durer2.gif" style="width: 240px; height: auto; float: right;"/>
+				</section>
+				<section>
+					<h2>More Lessons Learned..</h2>
+					Canvas width, height huh?  CSS or attribute? What's an attribute really?
+					<!-- Set an attribute on the fly?  What is an attribute really?  http://stackoverflow.com/questions/4938346/canvas-width-and-height-in-html5 -->
+<pre><code data-trim contenteditable>
+// Make a canvas that has a blurry pixelated zoom-in
+// with each canvas pixel drawn showing as roughly 2x2 on screen
+canvas.width  = 400;
+canvas.height = 300;
+canvas.style.width  = '800px';
+canvas.style.height = '600px';
+</code></pre>
+				</section>
+				<section>
+					<h2>More Lessons Learned...</h2>
+					<ul>
+						<li>Overlapping div's over canvas elements was difficult.  jQuery Dialog Boxes were MUCH EASIER. </li>
+					    <li>There are a whole lot of similiarities porting java code over to JS.</li>
+						<!-- (ref: http://www.w3.org/wiki/JavaScript_best_practices and https://github.com/stevekwan/best-practices/blob/master/javascript/best-practices.md) -->
+						<li>Discretization vs parameterization (Aren't StackOverflow arguments fun?)</li>
+					</ul>
+				</section>
+				<section>
+					Whenever you see a function within another function, the inner function has access to the scope in the outer function.
+					This is called Lexical Scope or Closure - also referred to as Static Scope. The easiest way to demonstrate that:
+					<pre><code data-trim contenteditable>
+// Scope A var
+myFunction = function () {
+  // Scope B
+  var name = 'Todd';
+  // defined in Scope B
+  var myOtherFunction = function () {
+	// Scope C: `name` is accessible here!
+  };
+};
+					</code></pre>
+					This issue came up with the question "Where do I place click handlers?" Should they be located within the HTML?
+						Ans: Anywhere will work, but the scope needs to match, and html JS is global.</li>
+						<!-- See: http://stackoverflow.com/questions/22737525/uncaught-referenceerror-function-is-not-defined-jquery -->
+				</section>
+				<section>
+					<ul>
+						<li>How to set a default value for a parameter to a js function</li>
+						<!-- see:  http://stackoverflow.com/questions/894860/set-a-default-parameter-value-for-a-javascript-function -->
+						<li>The Math.sign() function returns the sign of a number, indicating whether the number is positive, negative or zero. Use with sine wave to generate a square wave.</li>
+						<li>CloudFlare and JS minify (er, no, not really)  CloudFlare removes comments and whitespace, doesn't change variable names, doesn't work if jslint has errors (use strict)</li>
+					</ul>
+				</section>
+
+			</section>
+
+			<section style="text-align: left;">
+				<h1>THE END</h1>
+				<p>Is this code perfect? Certainly not, but, remember, <h2>if every pork chop was perfect, we wouldn't have hot dogs.</h2></p>
+				<p><a href="https://github.com/hakimel/reveal.js">Reveal.JS presenter tool &amp; documentation</a></p>
+			</section>
+
+		</div>
+
+	</div>
+
+	<script src="js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+
+	<script>
+		// Full list of configuration options available at:
+		// https://github.com/hakimel/reveal.js#configuration
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			history: true,
+			center: true,
+
+			transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+			// Optional reveal.js plugins
+			dependencies: [{
+				src: 'js/classList.js',
+				condition: function() {
+					return !document.body.classList;
+				}
+			}, {
+				src: 'plugin/markdown/marked.js',
+				condition: function() {
+					return !!document.querySelector('[data-markdown]');
+				}
+			}, {
+				src: 'plugin/markdown/markdown.js',
+				condition: function() {
+					return !!document.querySelector('[data-markdown]');
+				}
+			}, {
+				src: 'plugin/highlight/highlight.js',
+				async: true,
+				condition: function() {
+					return !!document.querySelector('pre code');
+				},
+				callback: function() {
+					hljs.initHighlightingOnLoad();
+				}
+			}, {
+				src: 'plugin/zoom-js/zoom.js',
+				async: true
+			}, {
+				src: 'plugin/notes/notes.js',
+				async: true
+			}]
+		});
+	</script>
+
+</body>
+
+</html>
