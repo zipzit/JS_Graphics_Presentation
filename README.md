@@ -18,4 +18,9 @@ Demos:
 - theory of CAD Slide
 - TubeNotcher Application (including printouts on paper)
 
+Things I learned:
+- Lots of little JS tidbits on info.
+
+<a href="http://dogfeatherdesign.com/js-graphics-presentation-22-sept-2015/">Link to slide show.</a>
+
 LB Corney
